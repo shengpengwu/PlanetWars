@@ -35,6 +35,7 @@
 #define META 3
 
 //GAME CONSTANTS
+#define MAX_UNITS 10
 #define NUM_LANES 5
 #define MAP_DENSITY 1 //1(linear) to 6(full mesh)
 #define MAP_DENSITY_STRICTNESS 1000000 //Number of attempts worth spending to try and fit density rule

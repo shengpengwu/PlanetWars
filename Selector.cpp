@@ -136,7 +136,8 @@ void Selector::set(float x, float y)
         this->column = tempC;
         this->row = tempR;
     }
-    cout << dotX << "\t" << dotY << "\t-\t" << column << "\t" << row << endl;
+    //Uncomment For Debugging:
+    //cout << dotX << "\t" << dotY << "\t-\t" << column << "\t" << row << endl;
 }
 
 void Selector::drawAtPosition()
