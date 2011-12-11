@@ -77,6 +77,14 @@
 #define DARK_G 0.1f
 #define DARK_B 0.1f
 
+//PLAYER COLORS
+#define PLAYER_1_R 0.6f
+#define PLAYER_1_G 0.2f
+#define PLAYER_1_B 0.2f
+#define PLAYER_2_R 0.2f
+#define PLAYER_2_G 0.2f
+#define PLAYER_2_B 0.6f
+
 //TYPE ATTRIBUTE VARIABLES
 #define WATER_HEALTH 1000;
 #define WATER_DAMAGE 100;

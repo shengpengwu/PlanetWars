@@ -104,7 +104,7 @@ void Ship::drawAtPosition()
 {
     if(loc == Model::getSelf()->nullNode)
     {
-        draw();
+        //draw();
         return;
     }
     glPushMatrix();
@@ -120,9 +120,9 @@ void Ship::moveToNode(Node *newLoc)
     {
         loc->ship = Model::getSelf()->nullShip;
         loc = newLoc;
-        loc->owner = this->owner;
         loc->ship = this;
         done = true;
+        this->owner->conquerNode(loc);
     }
 }
 
@@ -132,19 +132,22 @@ void Ship::addUnit(int type)
     {
         case TYPE_WATER:
             if(numWaterUnits >= MAX_UNITS) return;
-            numWaterUnits++;
+            numWaterUnits+=owner->waterNodesOwned;
             break;
         case TYPE_EARTH:
             if(numEarthUnits >= MAX_UNITS) return;
-            numEarthUnits++;
+            numEarthUnits+=owner->earthNodesOwned;
             break;
         case TYPE_WIND:
             if(numWindUnits >= MAX_UNITS) return;
-            numWindUnits++;
+            numWindUnits+=owner->windNodesOwned;
             break;
         case TYPE_FIRE:
             if(numFireUnits >= MAX_UNITS) return;
-            numFireUnits++;
+            numFireUnits+=owner->fireNodesOwned;
+            break;
+        case TYPE_DARK:
+            owner->darkResources+=owner->darkNodesOwned;
             break;
         default:
             break;

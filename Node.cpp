@@ -129,8 +129,9 @@ void Node::select(bool select)
 void Node::tick()
 {
     if(owner == Model::getSelf()->nullPlayer) return;
-    if(this->ship != Model::getSelf()->nullShip) this->ship->addUnit(type);
-    if(owner->home == this) owner->addShip(this);
+    if(this->ship != Model::getSelf()->nullShip) 
+        if(!this->ship->done)this->ship->addUnit(type);
+    if(owner->home == this) owner->darkResources++;
 }
 
 
@@ -242,31 +243,31 @@ void Node::compileDL()
     glNewList(Node::homDList, GL_COMPILE);
     
     glPushMatrix();
-    glScalef(0.8, 1.0, 0.8);
+    glScalef(1.2, 1.0, 1.2);
     glBegin(GL_TRIANGLES);
     glVertex3f(0, 0, 0);
-    glVertex3f(1, layer, 0);
-    glVertex3f(0.5, layer, sqrtOfThreeOverTwo);
+    glVertex3f(1, layer-0.1, 0);
+    glVertex3f(0.5, layer-0.1, sqrtOfThreeOverTwo);
     
     glVertex3f(0, 0, 0);
-    glVertex3f(0.5, layer, sqrtOfThreeOverTwo);
-    glVertex3f(-0.5, layer, sqrtOfThreeOverTwo);
+    glVertex3f(0.5, layer-0.1, sqrtOfThreeOverTwo);
+    glVertex3f(-0.5, layer-0.1, sqrtOfThreeOverTwo);
     
     glVertex3f(0, 0, 0);
-    glVertex3f(-0.5, layer, sqrtOfThreeOverTwo);
-    glVertex3f(-1, layer, 0);
+    glVertex3f(-0.5, layer-0.1, sqrtOfThreeOverTwo);
+    glVertex3f(-1, layer-0.1, 0);
     
     glVertex3f(0, 0, 0);
-    glVertex3f(-1, layer, 0);
-    glVertex3f(-0.5, layer, -1*sqrtOfThreeOverTwo);
+    glVertex3f(-1, layer-0.1, 0);
+    glVertex3f(-0.5, layer-0.1, -1*sqrtOfThreeOverTwo);
     
     glVertex3f(0, 0, 0);
-    glVertex3f(-0.5, layer, -1*sqrtOfThreeOverTwo);
-    glVertex3f(0.5, layer, -1*sqrtOfThreeOverTwo);  
+    glVertex3f(-0.5, layer-0.1, -1*sqrtOfThreeOverTwo);
+    glVertex3f(0.5, layer-0.1, -1*sqrtOfThreeOverTwo);  
     
     glVertex3f(0, 0, 0);
-    glVertex3f(0.5, layer, -1*sqrtOfThreeOverTwo);  
-    glVertex3f(1, layer, 0);
+    glVertex3f(0.5, layer-0.1, -1*sqrtOfThreeOverTwo);  
+    glVertex3f(1, layer-0.1, 0);
     glEnd();
     glPopMatrix();
     
@@ -280,6 +281,18 @@ void Node::compileDL()
 void Node::draw()
 {
     if(!Node::compiled) return;
+    if(owner != Model::getSelf()->nullPlayer)
+    {
+        if(owner->home == this)
+        {
+            if(owner == Model::getSelf()->playerArray[0])
+                setColor(PLAYER_1_R, PLAYER_1_G, PLAYER_1_B, 1.0f, 0.1f, 0.5f, 0.7);
+            else
+                setColor(PLAYER_2_R, PLAYER_2_G, PLAYER_2_B, 1.0f, 0.1f, 0.5f, 0.7);
+            setGLColor();
+            glCallList(Node::homDList);
+        }
+    }
     if(selected)
     {
         float color;
@@ -294,9 +307,12 @@ void Node::draw()
     setType(type);
     setGLColor();
     glCallList(Node::typDList);
-    if(owner == Model::getSelf()->playerArray[0])
+    if(owner != Model::getSelf()->nullPlayer)
     {
-        setColor(0.9f, 0.9f, 0.9f, 1.0f, 0.1f, 0.5f, 0.7);
+        if(owner == Model::getSelf()->playerArray[0])
+            setColor(PLAYER_1_R+0.4, PLAYER_1_G+0.4, PLAYER_1_B+0.4, 1.0f, 0.1f, 0.5f, 0.7);
+        else
+            setColor(PLAYER_2_R+0.4, PLAYER_2_G+0.4, PLAYER_2_B+0.4, 1.0f, 0.1f, 0.5f, 0.7);
         setGLColor();
         glCallList(Node::ownDList);
     }

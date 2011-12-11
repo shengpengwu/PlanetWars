@@ -177,6 +177,12 @@ void gameplay(){
     if(model->finishTurn)
     {
         map->tick();
+        std::cout << "Wa:\t"<<playerArray[0]->waterNodesOwned<<std::endl;
+        std::cout << "Ea:\t"<<playerArray[0]->earthNodesOwned<<std::endl;
+        std::cout << "Wi:\t"<<playerArray[0]->windNodesOwned<<std::endl;
+        std::cout << "Fi:\t"<<playerArray[0]->fireNodesOwned<<std::endl;
+        std::cout << "Da:\t"<<playerArray[0]->darkNodesOwned<<std::endl;
+        std::cout << "\n"<<endl;
         for(int i = 0; i < Model::getSelf()->numPlayers; i++)
             playerArray[i]->endTurn();
         model->finishTurn = false;
@@ -393,7 +399,7 @@ void initGL(int argc, char * argv[])
     glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_NORMALIZE);
     glDepthFunc(GL_LEQUAL);
-    glShadeModel(GL_SMOOTH);
+    glShadeModel(GL_FLAT);
     
     //Aim Stationary Light
     GLfloat pos[4] = {5.0f, 5.0f, 5.0f, 1.0f};

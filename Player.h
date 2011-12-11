@@ -20,8 +20,14 @@ public:
     Ship** shipArray;
     
     int nodesOwned;
+    int waterNodesOwned;
+    int earthNodesOwned;
+    int windNodesOwned;
+    int fireNodesOwned;
+    int darkNodesOwned;
+    
     int numShips;
-    int dark_resources;
+    int darkResources;
     
     bool hasNode(Node *node);
     void surrenderNode(Node *node);
