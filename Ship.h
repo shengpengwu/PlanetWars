@@ -25,6 +25,11 @@ public:
     Node * loc;
     Player * owner;
     
+    int numWaterUnits;
+    int numEarthUnits;
+    int numWindUnits;
+    int numFireUnits;
+    
     static bool compiled;       //True iff displayList names a valid glDisplayList
     static GLuint displayList;  //Name of displaylist for object
     
@@ -33,6 +38,9 @@ public:
     void drawAtPosition();
 
     void moveToNode(Node * newLoc);
+    void addUnit(int type);
+    Unit * deployUnit(int type);
+    
 };
 
 #endif

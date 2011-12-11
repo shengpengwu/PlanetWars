@@ -10,22 +10,24 @@
 
 Player::Player()
 {
-    fireResources = 0;
-    waterResources = 0;
-    earthResources = 0;
-    windResources = 0;
-    
-    this->fleet = new Fleet(this);
+    this->shipArray = new Ship*[Model::getSelf()->numNodes];
+    this->numShips = 0;
     this->myNodes = new Node*[Model::getSelf()->numNodes];
     this->nodesOwned = 0;
+    this->waterNodesOwned = 0;
+    this->earthNodesOwned = 0;
+    this->windNodesOwned = 0;
+    this->fireNodesOwned = 0;
+    this->darkNodesOwned = 0;
+    this->darkResources = 0;
 }
 
 Player::~Player()
 {
-    delete this->fleet;
+
 }
 
-bool Player::iOwnNode(Node *node)
+bool Player::hasNode(Node *node)
 {
     for(int i = 0; i < this->nodesOwned; i++)
     {
@@ -38,6 +40,7 @@ bool Player::iOwnNode(Node *node)
 void Player::surrenderNode(Node *node)
 {
     bool found;
+    
     for(int i = 0; i < this->nodesOwned; i++)
     {
         if(myNodes[i] == node)
@@ -45,6 +48,27 @@ void Player::surrenderNode(Node *node)
         if(found)
             myNodes[i] = myNodes[i+1];
     }
+    
+    switch(node->type)
+    {
+        case TYPE_WATER:
+            waterNodesOwned--;
+            break;
+        case TYPE_EARTH:
+            earthNodesOwned--;
+            break;
+        case TYPE_WIND:
+            windNodesOwned--;
+            break;
+        case TYPE_FIRE:
+            fireNodesOwned--;
+            break;
+        case TYPE_DARK:
+            darkNodesOwned--;
+            break;
+    }
+    nodesOwned--;
+    
     node->owner = Model::getSelf()->nullPlayer;
 }
 
@@ -55,30 +79,68 @@ void Player::attackNode(Node *attackNode, Node *defendNode)
 
 void Player::conquerNode(Node *node)
 {
-    if(!iOwnNode(node))
+    if(!hasNode(node))
     {
         if(node->owner != Model::getSelf()->nullPlayer) 
             node->owner->surrenderNode(node);
-        myNodes[nodesOwned++] = node;
+        myNodes[nodesOwned+1] = node;
     }
-    node->owner = this;
-}
-
-Unit * Player::deployUnit(Node *planet, int type)
-{
-    //Check if unit of requested type exists on any ships on current planet,
-    //or if player contains enough resources to create another one. 
-    //If so, remove unit from player's army and return unit. Else, return null.
     
-    return Model::getSelf()->nullUnit;
+    switch(node->type)
+    {
+        case TYPE_WATER:
+            waterNodesOwned++;
+            break;
+        case TYPE_EARTH:
+            earthNodesOwned++;
+            break;
+        case TYPE_WIND:
+            windNodesOwned++;
+            break;
+        case TYPE_FIRE:
+            fireNodesOwned++;
+            break;
+        case TYPE_DARK:
+            darkNodesOwned++;
+            break;
+    }
+    nodesOwned++;
+    
+    node->owner = this;
 }
 
 void Player::endTurn()
 {
-    fleet->refreshShips();
+    refreshShips();
+}
+
+
+bool Player::hasShip(Ship * s)
+{
+    for(int i = 0; i < numShips; i++)
+    {
+        if(shipArray[i] == s) return true;
+    }
+    return false;
+}
+
+void Player::addShip(Node * n)
+{
+    if(n->ship != Model::getSelf()->nullShip) return;
+    shipArray[numShips] = new Ship(this);
+    shipArray[numShips]->loc = n;
+    n->ship = shipArray[numShips];
+    numShips++;
+}
+
+void Player::refreshShips()
+{
+    for(int i = 0; i < numShips; i++)
+        shipArray[i]->done = false;
 }
 
 void Player::draw()
 {
-    fleet->draw();
+    for(int i = 0; i < numShips; i++)
+        shipArray[i]->drawAtPosition();
 }

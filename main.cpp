@@ -50,7 +50,7 @@ void initGame(int numPlayers, int numNodes)
     playerArray = model->setNumPlayers(numPlayers);
     selector = model->setSelector();
     map = model->setMap();
-    game = model->setMiniGame(nodeArray[0], playerArray[0], playerArray[1]);
+    game = model->setMiniGame(nodeArray[0], playerArray[0]->shipArray[0], playerArray[1]->shipArray[0]);
     menu = model->setMenu();
 }
 
@@ -177,6 +177,12 @@ void gameplay(){
     if(model->finishTurn)
     {
         map->tick();
+        std::cout << "Wa:\t"<<playerArray[0]->waterNodesOwned<<std::endl;
+        std::cout << "Ea:\t"<<playerArray[0]->earthNodesOwned<<std::endl;
+        std::cout << "Wi:\t"<<playerArray[0]->windNodesOwned<<std::endl;
+        std::cout << "Fi:\t"<<playerArray[0]->fireNodesOwned<<std::endl;
+        std::cout << "Da:\t"<<playerArray[0]->darkNodesOwned<<std::endl;
+        std::cout << "\n"<<endl;
         for(int i = 0; i < Model::getSelf()->numPlayers; i++)
             playerArray[i]->endTurn();
         model->finishTurn = false;
@@ -315,16 +321,16 @@ void KeyboardFunc(unsigned char key, int x, int y)
 			game->changeLane(RIGHT);
 			break;
 		case 'z':
-			game->addUnit(model->playerArray[0], TYPE_WATER);
+			game->deployUnit(model->selectedShip, TYPE_WATER);
 			break;
 		case 'x':
-			game->addUnit(model->playerArray[0], TYPE_EARTH);
+			game->deployUnit(model->selectedShip, TYPE_EARTH);
 			break;
 		case 'c':
-			game->addUnit(model->playerArray[0], TYPE_WIND);
+			game->deployUnit(model->selectedShip, TYPE_WIND);
 			break;
 		case 'v':
-			game->addUnit(model->playerArray[0], TYPE_FIRE);
+			game->deployUnit(model->selectedShip, TYPE_FIRE);
 			break;
 		}    
 

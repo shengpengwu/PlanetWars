@@ -75,29 +75,29 @@ void Selector::compileDL()
     glPushMatrix();
     glScalef(0.1f, 1.0f, 0.1f);
     glBegin(GL_TRIANGLES);
-    glVertex3f(0.0, layer+2, 0.0);
-    glVertex3f(1.0, layer+2, 0.0);
-    glVertex3f(0.5, layer+2, sqrtOfThreeOverTwo);
+    glVertex3f(0.0, layer+.22f, 0.0);
+    glVertex3f(1.0, layer+.22f, 0.0);
+    glVertex3f(0.5, layer+.22f, sqrtOfThreeOverTwo);
     
-    glVertex3f(0.0, layer+2, 0.0);
-    glVertex3f(0.5, layer+2, sqrtOfThreeOverTwo);
-    glVertex3f(-0.5, layer+2, sqrtOfThreeOverTwo);
+    glVertex3f(0.0, layer+.22f, 0.0);
+    glVertex3f(0.5, layer+.22f, sqrtOfThreeOverTwo);
+    glVertex3f(-0.5, layer+.22f, sqrtOfThreeOverTwo);
     
-    glVertex3f(0.0, layer+2, 0.0);
-    glVertex3f(-0.5, layer+2, sqrtOfThreeOverTwo);
-    glVertex3f(-1.0, layer+2, 0.0);
+    glVertex3f(0.0, layer+.22f, 0.0);
+    glVertex3f(-0.5, layer+.22f, sqrtOfThreeOverTwo);
+    glVertex3f(-1.0, layer+.22f, 0.0);
     
-    glVertex3f(0.0, layer+2, 0.0);
-    glVertex3f(-1.0, layer+2, 0.0);
-    glVertex3f(-0.5, layer+2, -1.0*sqrtOfThreeOverTwo);
+    glVertex3f(0.0, layer+.22f, 0.0);
+    glVertex3f(-1.0, layer+.22f, 0.0);
+    glVertex3f(-0.5, layer+.22f, -1.0*sqrtOfThreeOverTwo);
     
-    glVertex3f(0.0, layer+2, 0.0);
-    glVertex3f(-0.5, layer+2, -1.0*sqrtOfThreeOverTwo);
-    glVertex3f(0.5, layer+2, -1.0*sqrtOfThreeOverTwo);  
+    glVertex3f(0.0, layer+.22f, 0.0);
+    glVertex3f(-0.5, layer+.22f, -1.0*sqrtOfThreeOverTwo);
+    glVertex3f(0.5, layer+.22f, -1.0*sqrtOfThreeOverTwo);  
     
-    glVertex3f(0.0, layer+2, 0.0);
-    glVertex3f(0.5, layer+2, -1.0*sqrtOfThreeOverTwo);  
-    glVertex3f(1.0, layer+2, 0.0);
+    glVertex3f(0.0, layer+.22f, 0.0);
+    glVertex3f(0.5, layer+.22f, -1.0*sqrtOfThreeOverTwo);  
+    glVertex3f(1.0, layer+.22f, 0.0);
     glEnd();
     glPopMatrix();
     
@@ -136,7 +136,8 @@ void Selector::set(float x, float y)
         this->column = tempC;
         this->row = tempR;
     }
-    cout << dotX << "\t" << dotY << "\t-\t" << column << "\t" << row << endl;
+    //Uncomment For Debugging:
+    //cout << dotX << "\t" << dotY << "\t-\t" << column << "\t" << row << endl;
 }
 
 void Selector::drawAtPosition()

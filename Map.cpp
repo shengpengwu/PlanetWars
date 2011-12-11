@@ -41,7 +41,7 @@ void Map::selectSelected()
         n->select(true);
         if(n->ship != Model::getSelf()->nullShip)
         {
-            if(Model::getSelf()->playerArray[0]->fleet->hasShip(n->ship))
+            if(Model::getSelf()->playerArray[0]->hasShip(n->ship))
                 Model::getSelf()->selectedShip = n->ship;
         }
         else

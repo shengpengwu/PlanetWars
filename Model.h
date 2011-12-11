@@ -35,6 +35,7 @@
 #define META 3
 
 //GAME CONSTANTS
+#define MAX_UNITS 10
 #define NUM_LANES 5
 #define MAP_DENSITY 1 //1(linear) to 6(full mesh)
 #define MAP_DENSITY_STRICTNESS 1000000 //Number of attempts worth spending to try and fit density rule
@@ -52,11 +53,12 @@
 #define SHIP_SIZE 1
 
 //NODE/UNIT TYPES
-#define NUM_TYPES  4
+#define NUM_TYPES  5
 #define TYPE_WATER 0
 #define TYPE_EARTH 1
 #define TYPE_WIND  2
 #define TYPE_FIRE  3
+#define TYPE_DARK  4
 
 //TYPE COLOR VARS
 #define WATER_R 0.0f
@@ -71,6 +73,17 @@
 #define FIRE_R 1.0f
 #define FIRE_G 0.0f
 #define FIRE_B 0.0f
+#define DARK_R 0.1f
+#define DARK_G 0.1f
+#define DARK_B 0.1f
+
+//PLAYER COLORS
+#define PLAYER_1_R 0.6f
+#define PLAYER_1_G 0.2f
+#define PLAYER_1_B 0.2f
+#define PLAYER_2_R 0.2f
+#define PLAYER_2_G 0.2f
+#define PLAYER_2_B 0.6f
 
 //TYPE ATTRIBUTE VARIABLES
 #define WATER_HEALTH 1000;
@@ -113,8 +126,6 @@
 //Forward declarations- everything has access to everything (woah)
 class Menu;
 class Player;
-class Fleet;
-class Flagship;
 class Ship;
 class Unit;
 class Map;
@@ -128,8 +139,6 @@ class MiniGame;
 
 #include "Menu.h"
 #include "Player.h"
-#include "Fleet.h"
-#include "Flagship.h"
 #include "Ship.h"
 #include "Unit.h"
 #include "Map.h"
@@ -197,7 +206,7 @@ public:
     Map * setMap();
     Selector * setSelector();
     Menu * setMenu();
-    MiniGame * setMiniGame(Node * planet, Player * attacker, Player * defender);
+    MiniGame * setMiniGame(Node * planet, Ship * attacker, Ship * defender);
     
     Model();
     ~Model();
