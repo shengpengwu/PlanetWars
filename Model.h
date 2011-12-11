@@ -117,8 +117,6 @@
 //Forward declarations- everything has access to everything (woah)
 class Menu;
 class Player;
-class Fleet;
-class Flagship;
 class Ship;
 class Unit;
 class Map;
@@ -132,8 +130,6 @@ class MiniGame;
 
 #include "Menu.h"
 #include "Player.h"
-#include "Fleet.h"
-#include "Flagship.h"
 #include "Ship.h"
 #include "Unit.h"
 #include "Map.h"
@@ -201,7 +197,7 @@ public:
     Map * setMap();
     Selector * setSelector();
     Menu * setMenu();
-    MiniGame * setMiniGame(Node * planet, Player * attacker, Player * defender);
+    MiniGame * setMiniGame(Node * planet, Ship * attacker, Ship * defender);
     
     Model();
     ~Model();

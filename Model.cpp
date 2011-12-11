@@ -69,7 +69,7 @@ Player** Model::setNumPlayers(int numPlayers)
         playerArray[i]->conquerNode(nodeArray[i]);
         nodeArray[i]->setType(TYPE_DARK);
         playerArray[i]->home = nodeArray[i];
-        playerArray[i]->fleet->addShip(playerArray[i]->home, playerArray[i]);
+        playerArray[i]->addShip(playerArray[i]->home);
     }
     
     return playerArray;
@@ -106,7 +106,7 @@ Menu * Model::setMenu()
     return this->menu;
 }
 
-MiniGame * Model::setMiniGame(Node * planet, Player * attacker, Player * defender)
+MiniGame * Model::setMiniGame(Node * planet, Ship * attacker, Ship * defender)
 {
     this->mgame = new MiniGame(planet, attacker, defender);
     return this->mgame;

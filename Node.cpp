@@ -130,7 +130,7 @@ void Node::tick()
 {
     if(owner == Model::getSelf()->nullPlayer) return;
     if(this->ship != Model::getSelf()->nullShip) this->ship->addUnit(type);
-    if(owner->home == this) owner->fleet->addShip(this, owner);
+    if(owner->home == this) owner->addShip(this);
 }
 
 

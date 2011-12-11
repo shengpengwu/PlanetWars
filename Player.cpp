@@ -10,17 +10,17 @@
 
 Player::Player()
 {
-    this->fleet = new Fleet(this);
+    this->shipArray = new Ship*[Model::getSelf()->numNodes];
     this->myNodes = new Node*[Model::getSelf()->numNodes];
     this->nodesOwned = 0;
 }
 
 Player::~Player()
 {
-    delete this->fleet;
+
 }
 
-bool Player::iOwnNode(Node *node)
+bool Player::hasNode(Node *node)
 {
     for(int i = 0; i < this->nodesOwned; i++)
     {
@@ -50,7 +50,7 @@ void Player::attackNode(Node *attackNode, Node *defendNode)
 
 void Player::conquerNode(Node *node)
 {
-    if(!iOwnNode(node))
+    if(!hasNode(node))
     {
         if(node->owner != Model::getSelf()->nullPlayer) 
             node->owner->surrenderNode(node);
@@ -61,10 +61,36 @@ void Player::conquerNode(Node *node)
 
 void Player::endTurn()
 {
-    fleet->refreshShips();
+    refreshShips();
+}
+
+
+bool Player::hasShip(Ship * s)
+{
+    for(int i = 0; i < numShips; i++)
+    {
+        if(shipArray[i] == s) return true;
+    }
+    return false;
+}
+
+void Player::addShip(Node * n)
+{
+    if(n->ship != Model::getSelf()->nullShip) return;
+    shipArray[numShips] = new Ship(this);
+    shipArray[numShips]->loc = n;
+    n->ship = shipArray[numShips];
+    numShips++;
+}
+
+void Player::refreshShips()
+{
+    for(int i = 0; i < numShips; i++)
+        shipArray[i]->done = false;
 }
 
 void Player::draw()
 {
-    fleet->draw();
+    for(int i = 0; i < numShips; i++)
+        shipArray[i]->drawAtPosition();
 }

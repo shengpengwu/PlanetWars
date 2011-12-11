@@ -89,6 +89,11 @@ void Ship::moveToNode(Node *newLoc)
     }
 }
 
+void Ship::addUnit(int type)
+{
+    
+}
+
 Unit * Ship::deployUnit(int type)
 {
     

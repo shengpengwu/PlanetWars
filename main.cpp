@@ -50,7 +50,7 @@ void initGame(int numPlayers, int numNodes)
     playerArray = model->setNumPlayers(numPlayers);
     selector = model->setSelector();
     map = model->setMap();
-    game = model->setMiniGame(nodeArray[0], playerArray[0], playerArray[1]);
+    game = model->setMiniGame(nodeArray[0], playerArray[0]->shipArray[0], playerArray[1]->shipArray[0]);
     menu = model->setMenu();
 }
 
@@ -315,16 +315,16 @@ void KeyboardFunc(unsigned char key, int x, int y)
 			game->changeLane(RIGHT);
 			break;
 		case 'z':
-			game->deployUnit(model->playerArray[0], TYPE_WATER);
+			game->deployUnit(model->selectedShip, TYPE_WATER);
 			break;
 		case 'x':
-			game->deployUnit(model->playerArray[0], TYPE_EARTH);
+			game->deployUnit(model->selectedShip, TYPE_EARTH);
 			break;
 		case 'c':
-			game->deployUnit(model->playerArray[0], TYPE_WIND);
+			game->deployUnit(model->selectedShip, TYPE_WIND);
 			break;
 		case 'v':
-			game->deployUnit(model->playerArray[0], TYPE_FIRE);
+			game->deployUnit(model->selectedShip, TYPE_FIRE);
 			break;
 		}    
 
