@@ -177,12 +177,21 @@ void gameplay(){
     if(model->finishTurn)
     {
         map->tick();
+        //*DEBUG
         std::cout << "Wa:\t"<<playerArray[0]->waterNodesOwned<<std::endl;
         std::cout << "Ea:\t"<<playerArray[0]->earthNodesOwned<<std::endl;
         std::cout << "Wi:\t"<<playerArray[0]->windNodesOwned<<std::endl;
         std::cout << "Fi:\t"<<playerArray[0]->fireNodesOwned<<std::endl;
         std::cout << "Da:\t"<<playerArray[0]->darkNodesOwned<<std::endl;
-        std::cout << "\n"<<endl;
+        std::cout << "\nShip::" << std::endl;
+        std::cout << "Wa:\t"<<playerArray[0]->shipArray[0]->numWaterUnits<<std::endl;
+        std::cout << "Ea:\t"<<playerArray[0]->shipArray[0]->numEarthUnits<<std::endl;
+        std::cout << "Wi:\t"<<playerArray[0]->shipArray[0]->numWindUnits<<std::endl;
+        std::cout << "Fi:\t"<<playerArray[0]->shipArray[0]->numFireUnits<<std::endl;
+        std::cout << "Da:\t"<<playerArray[0]->darkResources<<std::endl;
+        std::cout << "\nNumNodes:" << playerArray[0]->nodesOwned << std::endl;
+        std::cout << "------------------------------\n"<<endl;
+         //*/
         for(int i = 0; i < Model::getSelf()->numPlayers; i++)
             playerArray[i]->endTurn();
         model->finishTurn = false;

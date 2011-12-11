@@ -79,12 +79,10 @@ Node** Model::setNumNodes(int numNodes)
 {
     this->numNodes = numNodes;
     this->nodeArray = new Node*[numNodes];
-    
     for(int i = 0; i < numNodes; i++)
     {
         nodeArray[i] = new Node(random()*NUM_TYPES);
     }
-    
     return nodeArray;
 }
 
@@ -110,6 +108,12 @@ MiniGame * Model::setMiniGame(Node * planet, Ship * attacker, Ship * defender)
 {
     this->mgame = new MiniGame(planet, attacker, defender);
     return this->mgame;
+}
+
+void Model::enterMiniGame(Node * planet, Ship * attacker, Ship * defender)
+{
+    setMiniGame(planet, attacker, defender);
+    state = MINIGAME;
 }
 
 void Model::setCameraParams()
