@@ -52,11 +52,12 @@
 #define SHIP_SIZE 1
 
 //NODE/UNIT TYPES
-#define NUM_TYPES  4
+#define NUM_TYPES  5
 #define TYPE_WATER 0
 #define TYPE_EARTH 1
 #define TYPE_WIND  2
 #define TYPE_FIRE  3
+#define TYPE_DARK  4
 
 //TYPE COLOR VARS
 #define WATER_R 0.0f
@@ -71,6 +72,9 @@
 #define FIRE_R 1.0f
 #define FIRE_G 0.0f
 #define FIRE_B 0.0f
+#define DARK_R 0.1f
+#define DARK_G 0.1f
+#define DARK_B 0.1f
 
 //TYPE ATTRIBUTE VARIABLES
 #define WATER_HEALTH 1000;

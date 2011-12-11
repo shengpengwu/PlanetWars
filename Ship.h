@@ -33,6 +33,9 @@ public:
     void drawAtPosition();
 
     void moveToNode(Node * newLoc);
+    void addUnit(int type);
+    Unit * deployUnit(int type);
+    
 };
 
 #endif

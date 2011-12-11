@@ -25,13 +25,9 @@ public:
     void surrenderNode(Node *node);
     void attackNode(Node *attackNode, Node *defendNode);
     void conquerNode(Node *node);
-    Unit * deployUnit(Node *planet, int type);
     void endTurn();
     
-    int fireResources;
-    int waterResources;
-    int earthResources;
-    int windResources;
+    int dark_resources;
     
     Player();
     ~Player();

@@ -59,6 +59,9 @@ void Node::setType(int t)
         case TYPE_WATER:
             this->setColor(WATER_R, WATER_G, WATER_B, 1.0, 0.1, 0.5, 0.7);
             break;
+        case TYPE_DARK:
+            this->setColor(DARK_R, DARK_G, DARK_B, 1.0, 0.1, 0.5, 0.7);
+            break;
         default:
             this->setColor(0.3, 0.3, 0.3, 1.0, 0.1, 0.5, 0.7);
             break;
@@ -126,23 +129,7 @@ void Node::select(bool select)
 void Node::tick()
 {
     if(owner == Model::getSelf()->nullPlayer) return;
-    switch (type) {
-        case TYPE_EARTH:
-            this->owner->earthResources+=productionRate;
-            break;
-        case TYPE_WIND:
-            this->owner->windResources+=productionRate;
-            break;
-        case TYPE_FIRE:
-            this->owner->fireResources+=productionRate;
-            break;
-        case TYPE_WATER:
-            this->owner->waterResources+=productionRate;
-            break;
-        default:
-            //Nothin'
-            break;
-    }
+    if(this->ship != Model::getSelf()->nullShip) this->ship->addUnit(type);
     if(owner->home == this) owner->fleet->addShip(this, owner);
 }
 
@@ -164,27 +151,27 @@ void Node::compileDL()
     glNewList(Node::displayList, GL_COMPILE);
     
     glBegin(GL_TRIANGLES);
-    glVertex3f(0, 0, 0);
+    glVertex3f(0, layer, 0);
     glVertex3f(1, layer, 0);
     glVertex3f(0.5, layer, sqrtOfThreeOverTwo);
 
-    glVertex3f(0, 0, 0);
+    glVertex3f(0, layer, 0);
     glVertex3f(0.5, layer, sqrtOfThreeOverTwo);
     glVertex3f(-0.5, layer, sqrtOfThreeOverTwo);
     
-    glVertex3f(0, 0, 0);
+    glVertex3f(0, layer, 0);
     glVertex3f(-0.5, layer, sqrtOfThreeOverTwo);
     glVertex3f(-1, layer, 0);
     
-    glVertex3f(0, 0, 0);
+    glVertex3f(0, layer, 0);
     glVertex3f(-1, layer, 0);
     glVertex3f(-0.5, layer, -1*sqrtOfThreeOverTwo);
     
-    glVertex3f(0, 0, 0);
+    glVertex3f(0, layer, 0);
     glVertex3f(-0.5, layer, -1*sqrtOfThreeOverTwo);
     glVertex3f(0.5, layer, -1*sqrtOfThreeOverTwo);  
     
-    glVertex3f(0, 0, 0);
+    glVertex3f(0, layer, 0);
     glVertex3f(0.5, layer, -1*sqrtOfThreeOverTwo);  
     glVertex3f(1, layer, 0);
     glEnd();
@@ -216,31 +203,31 @@ void Node::compileDL()
     glNewList(Node::ownDList, GL_COMPILE);
     
     glPushMatrix();
-    glScalef(0.8, 1.0, 0.8);
+    glScalef(0.6, 1.0, 0.6);
     glBegin(GL_TRIANGLES);
-    glVertex3f(0, 0, 0);
-    glVertex3f(1, layer, 0);
-    glVertex3f(0.5, layer, sqrtOfThreeOverTwo);
+    glVertex3f(0, layer+0.11, 0);
+    glVertex3f(1, layer+0.11, 0);
+    glVertex3f(0.5, layer+0.11, sqrtOfThreeOverTwo);
     
-    glVertex3f(0, 0, 0);
-    glVertex3f(0.5, layer, sqrtOfThreeOverTwo);
-    glVertex3f(-0.5, layer, sqrtOfThreeOverTwo);
+    glVertex3f(0, layer+0.11, 0);
+    glVertex3f(0.5, layer+0.11, sqrtOfThreeOverTwo);
+    glVertex3f(-0.5, layer+0.11, sqrtOfThreeOverTwo);
     
-    glVertex3f(0, 0, 0);
-    glVertex3f(-0.5, layer, sqrtOfThreeOverTwo);
-    glVertex3f(-1, layer, 0);
+    glVertex3f(0, layer+0.11, 0);
+    glVertex3f(-0.5, layer+0.11, sqrtOfThreeOverTwo);
+    glVertex3f(-1, layer+0.11, 0);
     
-    glVertex3f(0, 0, 0);
-    glVertex3f(-1, layer, 0);
-    glVertex3f(-0.5, layer, -1*sqrtOfThreeOverTwo);
+    glVertex3f(0, layer+0.11, 0);
+    glVertex3f(-1, layer+0.11, 0);
+    glVertex3f(-0.5, layer+0.11, -1*sqrtOfThreeOverTwo);
     
-    glVertex3f(0, 0, 0);
-    glVertex3f(-0.5, layer, -1*sqrtOfThreeOverTwo);
-    glVertex3f(0.5, layer, -1*sqrtOfThreeOverTwo);  
+    glVertex3f(0, layer+0.11, 0);
+    glVertex3f(-0.5, layer+0.11, -1*sqrtOfThreeOverTwo);
+    glVertex3f(0.5, layer+0.11, -1*sqrtOfThreeOverTwo);  
     
-    glVertex3f(0, 0, 0);
-    glVertex3f(0.5, layer, -1*sqrtOfThreeOverTwo);  
-    glVertex3f(1, layer, 0);
+    glVertex3f(0, layer+0.11, 0);
+    glVertex3f(0.5, layer+0.11, -1*sqrtOfThreeOverTwo);  
+    glVertex3f(1, layer+0.11, 0);
     glEnd();
     glPopMatrix();
     
@@ -296,8 +283,8 @@ void Node::draw()
     if(selected)
     {
         float color;
-        color = sinf((float)(Model::getSelf()->tickCount/200.0))/2+.5;
-        if(color < 0.3f) color = 0.3f;
+        color = (sinf((float)(Model::getSelf()->tickCount/200.0))/2+.5)/2 + .5;
+        if(color < 0.5f) color = 0.5f;
         setColor(color, color, color, 1.0, 1.0, 1.0, 1.0);
     }
     else
@@ -307,6 +294,12 @@ void Node::draw()
     setType(type);
     setGLColor();
     glCallList(Node::typDList);
+    if(owner == Model::getSelf()->playerArray[0])
+    {
+        setColor(0.9f, 0.9f, 0.9f, 1.0f, 0.1f, 0.5f, 0.7);
+        setGLColor();
+        glCallList(Node::ownDList);
+    }
 }
 
 void Node::drawAtPosition()

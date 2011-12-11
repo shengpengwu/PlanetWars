@@ -315,16 +315,16 @@ void KeyboardFunc(unsigned char key, int x, int y)
 			game->changeLane(RIGHT);
 			break;
 		case 'z':
-			game->addUnit(model->playerArray[0], TYPE_WATER);
+			game->deployUnit(model->playerArray[0], TYPE_WATER);
 			break;
 		case 'x':
-			game->addUnit(model->playerArray[0], TYPE_EARTH);
+			game->deployUnit(model->playerArray[0], TYPE_EARTH);
 			break;
 		case 'c':
-			game->addUnit(model->playerArray[0], TYPE_WIND);
+			game->deployUnit(model->playerArray[0], TYPE_WIND);
 			break;
 		case 'v':
-			game->addUnit(model->playerArray[0], TYPE_FIRE);
+			game->deployUnit(model->playerArray[0], TYPE_FIRE);
 			break;
 		}    
 
@@ -393,7 +393,7 @@ void initGL(int argc, char * argv[])
     glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_NORMALIZE);
     glDepthFunc(GL_LEQUAL);
-    glShadeModel(GL_FLAT);
+    glShadeModel(GL_SMOOTH);
     
     //Aim Stationary Light
     GLfloat pos[4] = {5.0f, 5.0f, 5.0f, 1.0f};

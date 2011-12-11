@@ -83,7 +83,14 @@ void Ship::moveToNode(Node *newLoc)
     {
         loc->ship = Model::getSelf()->nullShip;
         loc = newLoc;
+        loc->owner = this->owner;
         loc->ship = this;
         done = true;
     }
+}
+
+Unit * Ship::deployUnit(int type)
+{
+    
+    return Model::getSelf()->nullUnit;
 }

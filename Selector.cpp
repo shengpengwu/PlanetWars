@@ -75,29 +75,29 @@ void Selector::compileDL()
     glPushMatrix();
     glScalef(0.1f, 1.0f, 0.1f);
     glBegin(GL_TRIANGLES);
-    glVertex3f(0.0, layer+2, 0.0);
-    glVertex3f(1.0, layer+2, 0.0);
-    glVertex3f(0.5, layer+2, sqrtOfThreeOverTwo);
+    glVertex3f(0.0, layer+.2f, 0.0);
+    glVertex3f(1.0, layer+.2f, 0.0);
+    glVertex3f(0.5, layer+.2f, sqrtOfThreeOverTwo);
     
-    glVertex3f(0.0, layer+2, 0.0);
-    glVertex3f(0.5, layer+2, sqrtOfThreeOverTwo);
-    glVertex3f(-0.5, layer+2, sqrtOfThreeOverTwo);
+    glVertex3f(0.0, layer+.2f, 0.0);
+    glVertex3f(0.5, layer+.2f, sqrtOfThreeOverTwo);
+    glVertex3f(-0.5, layer+.2f, sqrtOfThreeOverTwo);
     
-    glVertex3f(0.0, layer+2, 0.0);
-    glVertex3f(-0.5, layer+2, sqrtOfThreeOverTwo);
-    glVertex3f(-1.0, layer+2, 0.0);
+    glVertex3f(0.0, layer+.2f, 0.0);
+    glVertex3f(-0.5, layer+.2f, sqrtOfThreeOverTwo);
+    glVertex3f(-1.0, layer+.2f, 0.0);
     
-    glVertex3f(0.0, layer+2, 0.0);
-    glVertex3f(-1.0, layer+2, 0.0);
-    glVertex3f(-0.5, layer+2, -1.0*sqrtOfThreeOverTwo);
+    glVertex3f(0.0, layer+.2f, 0.0);
+    glVertex3f(-1.0, layer+.2f, 0.0);
+    glVertex3f(-0.5, layer+.2f, -1.0*sqrtOfThreeOverTwo);
     
-    glVertex3f(0.0, layer+2, 0.0);
-    glVertex3f(-0.5, layer+2, -1.0*sqrtOfThreeOverTwo);
-    glVertex3f(0.5, layer+2, -1.0*sqrtOfThreeOverTwo);  
+    glVertex3f(0.0, layer+.2f, 0.0);
+    glVertex3f(-0.5, layer+.2f, -1.0*sqrtOfThreeOverTwo);
+    glVertex3f(0.5, layer+.2f, -1.0*sqrtOfThreeOverTwo);  
     
-    glVertex3f(0.0, layer+2, 0.0);
-    glVertex3f(0.5, layer+2, -1.0*sqrtOfThreeOverTwo);  
-    glVertex3f(1.0, layer+2, 0.0);
+    glVertex3f(0.0, layer+.2f, 0.0);
+    glVertex3f(0.5, layer+.2f, -1.0*sqrtOfThreeOverTwo);  
+    glVertex3f(1.0, layer+.2f, 0.0);
     glEnd();
     glPopMatrix();
     

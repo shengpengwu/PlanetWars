@@ -1,10 +1,10 @@
 #include "MiniGame.h"
 
-MiniGame::MiniGame(Node * planet, Player * attacker, Player * defender)
+MiniGame::MiniGame(Node * planet, Ship * attackerShip, Ship * defenderShip)
 {
     node = planet;
-    p1 = attacker;
-    p2 = defender;
+    attacker = attackerShip;
+    defender = defenderShip;
     
     lanes = new Lane*[NUM_LANES];
     for(int i = 0; i < NUM_LANES; i++)
@@ -30,11 +30,11 @@ void MiniGame::selectLane(int lane)
     lanes[selectedLane]->setSelected(true);
 }
 
-void MiniGame::addUnit(Player * p, int type) {
-    Unit * u = p->deployUnit(node, type);
+void MiniGame::deployUnit(Ship * s, int type) {
+    Unit * u = s->deployUnit(type);
     if(u != Model::getSelf()->nullUnit)
     {
-        lanes[selectedLane]->deployUnit(u, (p == p1));
+        lanes[selectedLane]->deployUnit(u, (s == attacker));
     }
 }
 

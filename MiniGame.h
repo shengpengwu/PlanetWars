@@ -12,18 +12,18 @@ class Lane;
 class MiniGame
 {
 public:
-	MiniGame(Node * node, Player * attacker, Player * defender);
+	MiniGame(Node * node, Ship * attackerShip, Ship * defenderShip);
     
     Node * node;
-    Player * p1; //Attacker
-    Player * p2; //Defender
+    Ship * attacker;
+    Ship * defender;
 
     Lane ** lanes;
     int selectedLane;
     
     void changeLane(int direction);
     void selectLane(int lane);
-    void addUnit(Player * p, int type);
+    void deployUnit(Ship * s, int type);
 	void update();
     void drawGame();
 };

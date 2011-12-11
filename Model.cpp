@@ -67,6 +67,7 @@ Player** Model::setNumPlayers(int numPlayers)
     {
         playerArray[i] = new Player();
         playerArray[i]->conquerNode(nodeArray[i]);
+        nodeArray[i]->setType(TYPE_DARK);
         playerArray[i]->home = nodeArray[i];
         playerArray[i]->fleet->addShip(playerArray[i]->home, playerArray[i]);
     }
