@@ -20,6 +20,7 @@ Ship::Ship(Player * o)
     numEarthUnits = 0;
     numWindUnits = 0; 
     numFireUnits = 0;
+    done = false;
     if(!Ship::compiled) compileDL();
 }
 

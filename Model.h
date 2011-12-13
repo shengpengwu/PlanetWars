@@ -208,6 +208,8 @@ public:
     Menu * setMenu();
     MiniGame * setMiniGame(Node * planet, Ship * attacker, Ship * defender);
     
+    void enterMiniGame(Node * planet, Ship * attacker, Ship * defender);
+    
     Model();
     ~Model();
     

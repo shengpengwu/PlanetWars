@@ -84,29 +84,29 @@ void Player::conquerNode(Node *node)
         if(node->owner != Model::getSelf()->nullPlayer) 
             node->owner->surrenderNode(node);
         myNodes[nodesOwned+1] = node;
-    }
     
-    switch(node->type)
-    {
-        case TYPE_WATER:
-            waterNodesOwned++;
-            break;
-        case TYPE_EARTH:
-            earthNodesOwned++;
-            break;
-        case TYPE_WIND:
-            windNodesOwned++;
-            break;
-        case TYPE_FIRE:
-            fireNodesOwned++;
-            break;
-        case TYPE_DARK:
-            darkNodesOwned++;
-            break;
-    }
-    nodesOwned++;
     
-    node->owner = this;
+        switch(node->type)
+        {
+            case TYPE_WATER:
+                waterNodesOwned++;
+                break;
+            case TYPE_EARTH:
+                earthNodesOwned++;
+                break;
+            case TYPE_WIND:
+                windNodesOwned++;
+                break;
+            case TYPE_FIRE:
+                fireNodesOwned++;
+                break;
+            case TYPE_DARK:
+                darkNodesOwned++;
+                break;
+        }
+        nodesOwned++;
+        node->owner = this;
+    }
 }
 
 void Player::endTurn()
