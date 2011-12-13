@@ -35,41 +35,8 @@ Node * Map::getNodeAt(int row, int col)
 void Map::selectSelected()
 {
     Node *n;
-    n = getNodeAt(selector->row, selector->column);//Get node at spot clicked
-    if(n != Model::getSelf()->nullNode) //If spot clicked is an actual node...
-    {
-        n->select(true);//Select it
-        if(n->ship != Model::getSelf()->nullShip)//If there is a ship on selected node...
-        {
-            if(Model::getSelf()->playerArray[0]->hasShip(n->ship))//And it is owned by player[0]...
-                Model::getSelf()->selectedShip = n->ship;//It is now the selected ship
-            else//If ship on node just selected is NOT owned by player[0]
-            {
-                if(Model::getSelf()->playerArray[0]->hasShip(Model::getSelf()->selectedShip))//But the currently selected ship IS...
-                {
-                    if(Model::getSelf()->selectedShip->loc->isNeighborOf(n))//And the newly selected node is within range of the currently selected ship...
-                    {
-                        //BATTLE!!!!!
-                        Model::getSelf()->enterMiniGame(n, Model::getSelf()->selectedShip, n->ship);
-                    }
-                }
-            }
-        }
-        else//If there is NOT a ship on the selected node...
-        {
-            if(Model::getSelf()->selectedShip != Model::getSelf()->nullShip)//but a ship is already selected...
-            {
-                Model::getSelf()->selectedShip->moveToNode(n);//Attempt to move ship to new node
-                Model::getSelf()->selectedShip = Model::getSelf()->nullShip;//and set selected ship to null
-            }
-        }
-    }
-    else//If spot clicked is not a node...
-    {
-        if(Model::getSelf()->selectedNode != Model::getSelf()->nullNode)//but a node IS currently selected... 
-            Model::getSelf()->selectedNode->select(false); //Deselect the selected node.
-        Model::getSelf()->selectedShip = Model::getSelf()->nullShip;//And deselect the ship
-    }
+    n = getNodeAt(selector->row, selector->column);
+    if(n != Model::getSelf()->nullNode) n->select(true);
 }
 
 void Map::linkNodeToNeighbors(Node * node)

@@ -7,24 +7,19 @@
 //
 
 
-
-#ifdef __linux__
-  // Linux Includes Here
-  #error Can't be compiled on Linux yet
-#elif defined _WIN32 || _WIN64
+//#ifndef _WIN32
+    //#include <OpenGL/OpenGL.h>
+   //#include <GLUT/GLUT.h>
+//#elif
     #include <GL\freeglut.h>
     #include <GL\GL.h>
-#else
-    #include <OpenGL/OpenGL.h>
-    #include <GLUT/GLUT.h>
-#endif
+//#endif
 
 
 #include <iostream>
 #include <stdlib.h>
 #include <math.h>
 
-#include "TextPrint.h"
 #include "Model.h"
 
 //MODEL ACCESSORS:: DO NOT ABUSE THESE!!!!
@@ -50,7 +45,7 @@ void initGame(int numPlayers, int numNodes)
     playerArray = model->setNumPlayers(numPlayers);
     selector = model->setSelector();
     map = model->setMap();
-    game = model->setMiniGame(nodeArray[0], playerArray[0]->shipArray[0], playerArray[1]->shipArray[0]);
+    game = model->setMiniGame(nodeArray[0], playerArray[0], playerArray[1]);
     menu = model->setMenu();
 }
 
@@ -58,112 +53,18 @@ void initGame(int numPlayers, int numNodes)
 //GAME STATES
 /////////
 
-// This is the TITLE
-
 void pregame(){
-	//Main Viewport
-    glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(60.0 , ((double) Model::getSelf()->width) / ((double) Model::getSelf()->height), 1.0f , 100.0);
-	glViewport(0 , 0 , Model::getSelf()->width, Model::getSelf()->height);
-
-
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	// Notes for the camera:
-	// Eye`2`
-	// Center
-	// Lookat
-	gluLookAt(
-		Model::getSelf()->camCenterX+Model::getSelf()->mouseX*10, Model::getSelf()->zoom, Model::getSelf()->mouseY*-10, 
-		0, 0, 0, 
-		0, 0, -1
-		); 
-
+	gluLookAt(model->camCenterX+model->mouseX*-10, model->zoom, model->camCenterY+model->mouseY*10, 
+              model->camCenterX, 0, model->camCenterY, 
+              0, 0, -1); 
+    
 	menu->setMenu(TITLE);
 	glPushMatrix();
-	glScalef(10.0, 0, 7.0);
+	glScalef(5.0, 1, 5.0);
 	menu->draw();
 	glPopMatrix();
-}
-
-void mainMenu(){
-	//Main Viewport
-    glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(60.0 , ((double) Model::getSelf()->width) / ((double) Model::getSelf()->height), 1.0f , 100.0);
-	glViewport(0 , 0 , Model::getSelf()->width, Model::getSelf()->height);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	// Notes for the camera:
-	// Eye
-	// Center
-	// Lookat
-	gluLookAt(
-		Model::getSelf()->camCenterX+Model::getSelf()->mouseX*10, Model::getSelf()->zoom, Model::getSelf()->mouseY*-10, 
-		0, 0, 0, 
-		0, 0, -1
-		); 
-
-	menu->setMenu(META);
-	glPushMatrix();
-	glScalef(10.0, 0, 7.0);
-	menu->draw();
-	glPopMatrix();
-}
-
-void metapause(){
-	//Main Viewport
-    glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(60.0 , ((double) Model::getSelf()->width) / ((double) Model::getSelf()->height), 1.0f , 100.0);
-	glViewport(0 , 0 , Model::getSelf()->width, Model::getSelf()->height);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	// Notes for the camera:
-	// Eye
-	// Center
-	// Lookat
-	gluLookAt(
-		Model::getSelf()->camCenterX+Model::getSelf()->mouseX*10, Model::getSelf()->zoom, Model::getSelf()->mouseY*-10, 
-		0, 0, 0, 
-		0, 0, -1
-		); 
-
-	menu->setMenu(META);
-	glPushMatrix();
-	glScalef(10.0, 0, 7.0);
-	menu->draw();
-	glPopMatrix();
-}
-
-void minipause(){
-	//Main Viewport
-    glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(60.0 , ((double) Model::getSelf()->width) / ((double) Model::getSelf()->height), 1.0f , 100.0);
-	glViewport(0 , 0 , Model::getSelf()->width, Model::getSelf()->height);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	// Notes for the camera:
-	// Eye
-	// Center
-	// Lookat
-	gluLookAt(
-		Model::getSelf()->camCenterX+Model::getSelf()->mouseX*10, Model::getSelf()->zoom, Model::getSelf()->mouseY*-10, 
-		0, 0, 0, 
-		0, 0, -1
-		); 
-
-	menu->setMenu(MINI);
-	glPushMatrix();
-	glScalef(10.0, 0, 7.0);
-	menu->draw();
-	glPopMatrix();
-
 }
 
 void gameplay(){
@@ -177,34 +78,19 @@ void gameplay(){
     if(model->finishTurn)
     {
         map->tick();
-        //*DEBUG
-        std::cout << "Wa:\t"<<playerArray[0]->waterNodesOwned<<std::endl;
-        std::cout << "Ea:\t"<<playerArray[0]->earthNodesOwned<<std::endl;
-        std::cout << "Wi:\t"<<playerArray[0]->windNodesOwned<<std::endl;
-        std::cout << "Fi:\t"<<playerArray[0]->fireNodesOwned<<std::endl;
-        std::cout << "Da:\t"<<playerArray[0]->darkNodesOwned<<std::endl;
-        std::cout << "\nShip::" << std::endl;
-        std::cout << "Wa:\t"<<playerArray[0]->shipArray[0]->numWaterUnits<<std::endl;
-        std::cout << "Ea:\t"<<playerArray[0]->shipArray[0]->numEarthUnits<<std::endl;
-        std::cout << "Wi:\t"<<playerArray[0]->shipArray[0]->numWindUnits<<std::endl;
-        std::cout << "Fi:\t"<<playerArray[0]->shipArray[0]->numFireUnits<<std::endl;
-        std::cout << "Da:\t"<<playerArray[0]->darkResources<<std::endl;
-        std::cout << "\nNumNodes:" << playerArray[0]->nodesOwned << std::endl;
-        std::cout << "------------------------------\n"<<endl;
-         //*/
-        for(int i = 0; i < Model::getSelf()->numPlayers; i++)
+        for(int i = 0; i <DEFAULT_NUM_PLAYERS; i++)
             playerArray[i]->endTurn();
         model->finishTurn = false;
     }
 	map->draw();
-    for(int i = 0; i < Model::getSelf()->numPlayers; i++)
+    for(int i = 0; i <DEFAULT_NUM_PLAYERS; i++)
         playerArray[i]->draw();
 }
 
 void minigame() { 
     glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(0.0, 20.0, 100.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(0.0, 350.0, 800.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
     
     game->update();
 	game->drawGame();
@@ -224,10 +110,8 @@ void PassiveMotionFunc(int x, int y)
 
 void MouseFunc(int button, int state, int x, int y)
 {
-    if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
-    {
+    if(button == GLUT_LEFT_BUTTON)
         map->selectSelected();
-    }
 }
 
 void DisplayFunc()
@@ -238,23 +122,14 @@ void DisplayFunc()
     //Main Viewport
     glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(60.0 , ((float) model->width) / ((float) model->height), 1.0f , 100.0);
+	gluPerspective(60.0 , ((float) model->width) / ((float) model->height), 1.0f , 2000.0);
 	glViewport(0 , 0 , model->width, model->height);
     
-   
+    //model->state = MINIGAME;
 	switch(model->state){
         case TITLE:
             pregame();
             break;
-		case MAINMENU:
-			mainMenu();
-			break;
-		case METAPAUSE:
-			metapause();
-			break;
-		case MINIPAUSE:
-			minipause();
-			break;
         case GAMEPLAY:
             gameplay();
             break;
@@ -263,7 +138,6 @@ void DisplayFunc()
             break;
 	}
     
-    model->tickCount++;
 	glutSwapBuffers();
 }
 
@@ -274,100 +148,59 @@ void IdleFunc()
 
 void KeyboardFunc(unsigned char key, int x, int y)
 {
-	//SHOULD PUT KEY SWITCH STATEMENTS IN INDIVIDUAL STATE CASES
-	//(ie each state has its own set of keystrokes)
-	switch(model->state){
-	case TITLE:
-		switch (key)
-		{
-		case 13:
-			model->state = MAINMENU;
-			break;
-		}
-		break;
-	case MAINMENU:
-		switch (key)
-		{
-		case 13:
-			model->state = GAMEPLAY;
-			break;
-		}
-		break;
-	case METAPAUSE:
-		switch (key)
-		{
-		case 13:
-			model->state = GAMEPLAY;
-			break;
-		}
-		break;
-	case MINIPAUSE:
-		switch (key)
-		{
-		case 13:
-			model->state = MINIGAME;
-			break;
-		}
-		break;
-	case GAMEPLAY:
-		switch (key)
-		{
-		case 'p':
-			model->state = METAPAUSE;
-			break;
-		}
-		break;
-	case MINIGAME:
-		switch (key)
-		{
-		case 'p':
-			model->state = MINIPAUSE;
-			break;
-		case '[': //left arrow
-			game->changeLane(LEFT);
-			break;
-		case ']': //right arrow
-			game->changeLane(RIGHT);
-			break;
-		case 'z':
-			game->deployUnit(model->selectedShip, TYPE_WATER);
-			break;
-		case 'x':
-			game->deployUnit(model->selectedShip, TYPE_EARTH);
-			break;
-		case 'c':
-			game->deployUnit(model->selectedShip, TYPE_WIND);
-			break;
-		case 'v':
-			game->deployUnit(model->selectedShip, TYPE_FIRE);
-			break;
-		}    
-
-		break;
+    //SHOULD PUT KEY SWITCH STATEMENTS IN INDIVIDUAL STATE CASES
+    //(ie each state has its own set of keystrokes)
+    switch(model->state){
+        case TITLE:
+            break;
+        case GAMEPLAY:
+            break;
+        case MINIGAME:
+            break;
 	}
-	// General key statements:
-	switch(key)
-	{
-	case 27: // Press the ESC key to exit the game immediately.
-		exit(0);
-		break;
-	case 'p':
-		//Menu::setMenu(META);
-		break;
-		// For state testing:
-	case '1':
-		model->state = GAMEPLAY;
-		break;
-	case '0':
-		model->state = TITLE;
-		break;
-	case '2':
-		model->state = MINIGAME;
-		break;
-		
-	case ' ': // I'm not sure where this is supposed to go.
-		model->finishTurn = true;
-	}
+    
+    switch(key)
+    {
+        case 27: // Press the ESC key to exit the game immediately.
+            exit(0);
+            break;
+        case 'p':
+            //Menu::setMenu(META);
+            break;
+            // For state testing:
+        case '1':
+            model->state = GAMEPLAY;
+            break;
+        case '0':
+            model->state = TITLE;
+            break;
+        case '2':
+            model->state = MINIGAME;
+            break;
+            
+        case ' ':
+            model->finishTurn = true;
+            
+        case '[': 
+            game->changeLane(LEFT);
+            break;
+        case ']': 
+            game->changeLane(RIGHT);
+            break;
+            
+        case 'z':
+            game->addUnit(model->playerArray[0], TYPE_WATER);
+            break;
+        case 'x':
+            game->addUnit(model->playerArray[0], TYPE_EARTH);
+            break;
+        case 'c':
+            game->addUnit(model->playerArray[0], TYPE_WIND);
+            break;
+        case 'v':
+            game->addUnit(model->playerArray[0], TYPE_FIRE);
+            break;
+    }
 }
 
 void SpecialFunc(int key, int x, int y)
@@ -392,14 +225,8 @@ void initGL(int argc, char * argv[])
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE);
 	glutInitWindowPosition(0 , 0);
 	glutInitWindowSize(model->width,model->height);
-	glutCreateWindow("PlanetsConquerer!");
+	glutCreateWindow("Sponge Bob to the Stars!");
 	//glutFullScreen();
-	/*
-	 * The following section is curser specification. You guys can choose what is appropriate,
-	 * but for now I'm getting rid of it.
-	 * Other types: GLUT_CURSOR_CROSSHAIR GLUT_CURSOR_NONE
-	 */
-	glutSetCursor(GLUT_CURSOR_NONE);
     
 	//One-Time setups
     glEnable(GL_DEPTH_TEST);

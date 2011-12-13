@@ -14,11 +14,13 @@ GLuint Unit::displayList;
 
 Unit::Unit(void) {
     initThings();
+	arrayIndex = 0;
 }
 
 Unit::Unit(int type) {
     setType(type);
     initThings();
+	arrayIndex = 0;
 }
 
 void Unit::initThings()
@@ -91,7 +93,7 @@ void Unit::resetCooldown()
 }
 
 bool Unit::attack(Unit *enemy)
-{
+{	
     if(cooldown == 0)
     {
         enemy->health -= damage;
@@ -102,13 +104,29 @@ bool Unit::attack(Unit *enemy)
     return (enemy->health <= 0);
 }
 
+bool Unit::attackShip(Ship *atkShip) {
+
+	if(cooldown == 0)
+    {
+        atkShip->health -= damage;
+        resetCooldown();
+    }
+    else
+        cooldown--;
+    return (atkShip->health <= 0);
+
+}
+
+
+
+
 void Unit::compileDL()
 {
     if(Unit::compiled) return;
     Unit::displayList = glGenLists(1);
     glNewList(Unit::displayList, GL_COMPILE);
     
-	gluSphere(gluNewQuadric(), 1, 36, 18);
+	gluSphere(gluNewQuadric(), 10, 36, 18);
     
     glEndList();
     Unit::compiled = true;
@@ -123,9 +141,12 @@ void Unit::draw()
 
 void Unit::drawAtPosition()
 {
-    glPushMatrix();
-    glTranslated(0, 0, pos);
-    glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(0, 5, pos);
+		draw();
+		glPopMatrix();
+    
 }
 
 

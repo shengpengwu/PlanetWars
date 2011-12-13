@@ -3,6 +3,7 @@
 
 class Lane;
 #include <math.h>
+#include <time.h>
 #include <iostream>
 #include "Model.h"
 #include "Player.h"
@@ -12,20 +13,26 @@ class Lane;
 class MiniGame
 {
 public:
-	MiniGame(Node * node, Ship * attackerShip, Ship * defenderShip);
+	MiniGame(Node * node, Player * attacker, Player * defender);
     
     Node * node;
-    Ship * attacker;
-    Ship * defender;
+    Player * p1; //Attacker
+    Player * p2; //Defender
 
     Lane ** lanes;
     int selectedLane;
+
+	int counter;
+
+	Ship * attackShip;
+	Ship * defendShip;
     
     void changeLane(int direction);
     void selectLane(int lane);
-    void deployUnit(Ship * s, int type);
+    void addUnit(Player * p, int type);
 	void update();
     void drawGame();
+	void generateUnits();
 };
 
 #endif

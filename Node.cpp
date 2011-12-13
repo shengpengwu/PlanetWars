@@ -59,9 +59,6 @@ void Node::setType(int t)
         case TYPE_WATER:
             this->setColor(WATER_R, WATER_G, WATER_B, 1.0, 0.1, 0.5, 0.7);
             break;
-        case TYPE_DARK:
-            this->setColor(DARK_R, DARK_G, DARK_B, 1.0, 0.1, 0.5, 0.7);
-            break;
         default:
             this->setColor(0.3, 0.3, 0.3, 1.0, 0.1, 0.5, 0.7);
             break;
@@ -129,148 +126,90 @@ void Node::select(bool select)
 void Node::tick()
 {
     if(owner == Model::getSelf()->nullPlayer) return;
-    if(this->ship != Model::getSelf()->nullShip) 
-        if(!this->ship->done)this->ship->addUnit(type);
-    if(owner->home == this) owner->darkResources++;
+    switch (type) {
+        case TYPE_EARTH:
+            this->owner->earthResources+=productionRate;
+            break;
+        case TYPE_WIND:
+            this->owner->windResources+=productionRate;
+            break;
+        case TYPE_FIRE:
+            this->owner->fireResources+=productionRate;
+            break;
+        case TYPE_WATER:
+            this->owner->waterResources+=productionRate;
+            break;
+        default:
+            //Nothin'
+            break;
+    }
+    if(owner->home == this) owner->fleet->addShip(this);
 }
 
 
 //DRAWABLE GEO FUNCTIONS
 bool Node::compiled = false;
 GLuint Node::displayList;
-GLuint Node::typDList;
-GLuint Node::ownDList;
-GLuint Node::homDList;
+GLuint Node::rimDList;
 
 void Node::compileDL()
 {
     if(Node::compiled) return;
-    
+    Node::displayList = glGenLists(1);
     float sqrtOfThreeOverTwo = sqrt(3.0/2.0);
 
-    Node::displayList = glGenLists(1);
     glNewList(Node::displayList, GL_COMPILE);
-    
     glBegin(GL_TRIANGLES);
-    glVertex3f(0, layer, 0);
+    
+    glVertex3f(0, 0, 0);
     glVertex3f(1, layer, 0);
     glVertex3f(0.5, layer, sqrtOfThreeOverTwo);
 
-    glVertex3f(0, layer, 0);
+    glVertex3f(0, 0, 0);
     glVertex3f(0.5, layer, sqrtOfThreeOverTwo);
     glVertex3f(-0.5, layer, sqrtOfThreeOverTwo);
     
-    glVertex3f(0, layer, 0);
+    glVertex3f(0, 0, 0);
     glVertex3f(-0.5, layer, sqrtOfThreeOverTwo);
     glVertex3f(-1, layer, 0);
     
-    glVertex3f(0, layer, 0);
+    glVertex3f(0, 0, 0);
     glVertex3f(-1, layer, 0);
     glVertex3f(-0.5, layer, -1*sqrtOfThreeOverTwo);
     
-    glVertex3f(0, layer, 0);
+    glVertex3f(0, 0, 0);
     glVertex3f(-0.5, layer, -1*sqrtOfThreeOverTwo);
     glVertex3f(0.5, layer, -1*sqrtOfThreeOverTwo);  
     
-    glVertex3f(0, layer, 0);
+    glVertex3f(0, 0, 0);
     glVertex3f(0.5, layer, -1*sqrtOfThreeOverTwo);  
     glVertex3f(1, layer, 0);
-    glEnd();
     
+    glEnd();
     glEndList();
     
     
     
     
     
-    Node::typDList = glGenLists(1);
-    glNewList(Node::typDList, GL_COMPILE);
+    Node::rimDList = glGenLists(1);
+    glNewList(Node::rimDList, GL_COMPILE);
     
     glPushMatrix();
-    glScalef(0.9, 1.0, 0.9);
+    glScalef(0.9, 0.9, 0.9);
     glBegin(GL_TRIANGLES);
+    
+    
+    //glVertex3f(1, layer+0.1, 0);
+    //glVertex3f(0.5, layer+0.1, sqrtOfThreeOverTwo);
+    //glVertex3f(-0.5, layer+0.1, sqrtOfThreeOverTwo);
     glVertex3f(-0.5, layer+0.1, -1*sqrtOfThreeOverTwo);
     glVertex3f(0.5, layer+0.1, -1*sqrtOfThreeOverTwo); 
     glVertex3f(-1, layer+0.1, 0);
+    //glVertex3f(1, layer+0.1, 0);
+     
     glEnd();
     glPopMatrix();
-    
-    glEndList();
-    
-    
-    
-    
-    Node::ownDList = glGenLists(1);
-    glNewList(Node::ownDList, GL_COMPILE);
-    
-    glPushMatrix();
-    glScalef(0.6, 1.0, 0.6);
-    glBegin(GL_TRIANGLES);
-    glVertex3f(0, layer+0.11, 0);
-    glVertex3f(1, layer+0.11, 0);
-    glVertex3f(0.5, layer+0.11, sqrtOfThreeOverTwo);
-    
-    glVertex3f(0, layer+0.11, 0);
-    glVertex3f(0.5, layer+0.11, sqrtOfThreeOverTwo);
-    glVertex3f(-0.5, layer+0.11, sqrtOfThreeOverTwo);
-    
-    glVertex3f(0, layer+0.11, 0);
-    glVertex3f(-0.5, layer+0.11, sqrtOfThreeOverTwo);
-    glVertex3f(-1, layer+0.11, 0);
-    
-    glVertex3f(0, layer+0.11, 0);
-    glVertex3f(-1, layer+0.11, 0);
-    glVertex3f(-0.5, layer+0.11, -1*sqrtOfThreeOverTwo);
-    
-    glVertex3f(0, layer+0.11, 0);
-    glVertex3f(-0.5, layer+0.11, -1*sqrtOfThreeOverTwo);
-    glVertex3f(0.5, layer+0.11, -1*sqrtOfThreeOverTwo);  
-    
-    glVertex3f(0, layer+0.11, 0);
-    glVertex3f(0.5, layer+0.11, -1*sqrtOfThreeOverTwo);  
-    glVertex3f(1, layer+0.11, 0);
-    glEnd();
-    glPopMatrix();
-    
-    glEndList();
-    
-    
-    
-    
-    
-    
-    Node::homDList = glGenLists(1);
-    glNewList(Node::homDList, GL_COMPILE);
-    
-    glPushMatrix();
-    glScalef(1.2, 1.0, 1.2);
-    glBegin(GL_TRIANGLES);
-    glVertex3f(0, 0, 0);
-    glVertex3f(1, layer-0.1, 0);
-    glVertex3f(0.5, layer-0.1, sqrtOfThreeOverTwo);
-    
-    glVertex3f(0, 0, 0);
-    glVertex3f(0.5, layer-0.1, sqrtOfThreeOverTwo);
-    glVertex3f(-0.5, layer-0.1, sqrtOfThreeOverTwo);
-    
-    glVertex3f(0, 0, 0);
-    glVertex3f(-0.5, layer-0.1, sqrtOfThreeOverTwo);
-    glVertex3f(-1, layer-0.1, 0);
-    
-    glVertex3f(0, 0, 0);
-    glVertex3f(-1, layer-0.1, 0);
-    glVertex3f(-0.5, layer-0.1, -1*sqrtOfThreeOverTwo);
-    
-    glVertex3f(0, 0, 0);
-    glVertex3f(-0.5, layer-0.1, -1*sqrtOfThreeOverTwo);
-    glVertex3f(0.5, layer-0.1, -1*sqrtOfThreeOverTwo);  
-    
-    glVertex3f(0, 0, 0);
-    glVertex3f(0.5, layer-0.1, -1*sqrtOfThreeOverTwo);  
-    glVertex3f(1, layer-0.1, 0);
-    glEnd();
-    glPopMatrix();
-    
     glEndList();
      
     
@@ -281,23 +220,11 @@ void Node::compileDL()
 void Node::draw()
 {
     if(!Node::compiled) return;
-    if(owner != Model::getSelf()->nullPlayer)
-    {
-        if(owner->home == this)
-        {
-            if(owner == Model::getSelf()->playerArray[0])
-                setColor(PLAYER_1_R, PLAYER_1_G, PLAYER_1_B, 1.0f, 0.1f, 0.5f, 0.7);
-            else
-                setColor(PLAYER_2_R, PLAYER_2_G, PLAYER_2_B, 1.0f, 0.1f, 0.5f, 0.7);
-            setGLColor();
-            glCallList(Node::homDList);
-        }
-    }
     if(selected)
     {
         float color;
-        color = (sinf((float)(Model::getSelf()->tickCount/200.0))/2+.5)/2 + .5;
-        if(color < 0.5f) color = 0.5f;
+        color = sinf((float)(Model::getSelf()->tickCount/200.0))/2+.5;
+        if(color < 0.3f) color = 0.3f;
         setColor(color, color, color, 1.0, 1.0, 1.0, 1.0);
     }
     else
@@ -306,16 +233,7 @@ void Node::draw()
     glCallList(Node::displayList);
     setType(type);
     setGLColor();
-    glCallList(Node::typDList);
-    if(owner != Model::getSelf()->nullPlayer)
-    {
-        if(owner == Model::getSelf()->playerArray[0])
-            setColor(PLAYER_1_R+0.4, PLAYER_1_G+0.4, PLAYER_1_B+0.4, 1.0f, 0.1f, 0.5f, 0.7);
-        else
-            setColor(PLAYER_2_R+0.4, PLAYER_2_G+0.4, PLAYER_2_B+0.4, 1.0f, 0.1f, 0.5f, 0.7);
-        setGLColor();
-        glCallList(Node::ownDList);
-    }
+    glCallList(Node::rimDList);
 }
 
 void Node::drawAtPosition()

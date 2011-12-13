@@ -35,7 +35,6 @@
 #define META 3
 
 //GAME CONSTANTS
-#define MAX_UNITS 10
 #define NUM_LANES 5
 #define MAP_DENSITY 1 //1(linear) to 6(full mesh)
 #define MAP_DENSITY_STRICTNESS 1000000 //Number of attempts worth spending to try and fit density rule
@@ -46,19 +45,18 @@
 #define COL_SPACING 1.6
 
 //MINIGAME GEO
-#define LANE_WIDTH 10
-#define LANE_LENGTH 100
+#define LANE_WIDTH 100
+#define LANE_LENGTH 1000
 
 //SIHP GEO
 #define SHIP_SIZE 1
 
 //NODE/UNIT TYPES
-#define NUM_TYPES  5
+#define NUM_TYPES  4
 #define TYPE_WATER 0
 #define TYPE_EARTH 1
 #define TYPE_WIND  2
 #define TYPE_FIRE  3
-#define TYPE_DARK  4
 
 //TYPE COLOR VARS
 #define WATER_R 0.0f
@@ -73,40 +71,30 @@
 #define FIRE_R 1.0f
 #define FIRE_G 0.0f
 #define FIRE_B 0.0f
-#define DARK_R 0.1f
-#define DARK_G 0.1f
-#define DARK_B 0.1f
-
-//PLAYER COLORS
-#define PLAYER_1_R 0.6f
-#define PLAYER_1_G 0.2f
-#define PLAYER_1_B 0.2f
-#define PLAYER_2_R 0.2f
-#define PLAYER_2_G 0.2f
-#define PLAYER_2_B 0.6f
 
 //TYPE ATTRIBUTE VARIABLES
 #define WATER_HEALTH 1000;
 #define WATER_DAMAGE 100;
-#define WATER_RANGE 2;
+#define WATER_RANGE 20;
 #define WATER_SPEED 3;
-#define WATER_COOL 5;
+#define WATER_COOL 5
+;
 
 #define EARTH_HEALTH 5000;
 #define EARTH_DAMAGE 10;
-#define EARTH_RANGE 1;
+#define EARTH_RANGE 10;
 #define EARTH_SPEED 1;
 #define EARTH_COOL 5;
 
 #define WIND_HEALTH 200;
 #define WIND_DAMAGE 50;
-#define WIND_RANGE 10;
+#define WIND_RANGE 100;
 #define WIND_SPEED 5;
 #define WIND_COOL 2;
 
 #define FIRE_HEALTH 1000;
 #define FIRE_DAMAGE 150;
-#define FIRE_RANGE 5;
+#define FIRE_RANGE 50;
 #define FIRE_SPEED 3;
 #define FIRE_COOL 6;
 
@@ -117,15 +105,20 @@
 #define SHIP_TYPE_CARRIER  2
 #define SHIP_TYPE_BATTLE   3
 
+//summon time
+#define SUMMON_TIME 150
+
 //DEFAULTS
 #define DEFAULT_NUM_PLAYERS 2
 #define DEFAULT_NUM_NODES 50
 #define SEED 1
-#define DEFAULT_STATE TITLE
+#define DEFAULT_STATE MINIGAME
 
 //Forward declarations- everything has access to everything (woah)
 class Menu;
 class Player;
+class Fleet;
+class Flagship;
 class Ship;
 class Unit;
 class Map;
@@ -139,6 +132,8 @@ class MiniGame;
 
 #include "Menu.h"
 #include "Player.h"
+#include "Fleet.h"
+#include "Flagship.h"
 #include "Ship.h"
 #include "Unit.h"
 #include "Map.h"
@@ -184,7 +179,6 @@ public:
     MiniGame * mgame;
         //Game State Vars
     Node * selectedNode;
-    Ship * selectedShip;
     int state;
     bool finishTurn;
     int numPlayers;
@@ -206,9 +200,7 @@ public:
     Map * setMap();
     Selector * setSelector();
     Menu * setMenu();
-    MiniGame * setMiniGame(Node * planet, Ship * attacker, Ship * defender);
-    
-    void enterMiniGame(Node * planet, Ship * attacker, Ship * defender);
+    MiniGame * setMiniGame(Node * planet, Player * attacker, Player * defender);
     
     Model();
     ~Model();

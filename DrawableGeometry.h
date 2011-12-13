@@ -8,17 +8,13 @@
 #ifndef	DRAWABLEGEOMETRY_H
 #define	DRAWABLEGEOMETRY_H
 
-
-#if defined __linux__
-  // Linux Includes Here
-  #error Can't be compiled on Linux yet
-#elif defined _WIN32 || _WIN64
+//#ifndef _WIN32
+  //  #import <OpenGL/OpenGL.h>
+  //  #import <GLUT/GLUT.h>
+//#elif
     #include <GL\freeglut.h>
     #include <GL\GL.h>
-#else
-    #include <OpenGL/OpenGL.h>
-    #include <GLUT/GLUT.h>
-#endif
+//#endif
 
 
 class DrawableGeometry

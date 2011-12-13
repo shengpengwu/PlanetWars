@@ -29,7 +29,6 @@ Model::Model()
     this->nullShip = NULL;
         
     selectedNode = nullNode;
-    selectedShip = nullShip;
     
     this->rowMax = 0;
     this->rowMin = 0;
@@ -66,10 +65,9 @@ Player** Model::setNumPlayers(int numPlayers)
     for(int i = 0; i < numPlayers; i++)
     {
         playerArray[i] = new Player();
-        nodeArray[i]->setType(TYPE_DARK);
         playerArray[i]->conquerNode(nodeArray[i]);
         playerArray[i]->home = nodeArray[i];
-        playerArray[i]->addShip(playerArray[i]->home);
+        playerArray[i]->fleet->addShip(playerArray[i]->home);
     }
     
     return playerArray;
@@ -79,10 +77,12 @@ Node** Model::setNumNodes(int numNodes)
 {
     this->numNodes = numNodes;
     this->nodeArray = new Node*[numNodes];
+    
     for(int i = 0; i < numNodes; i++)
     {
         nodeArray[i] = new Node(random()*NUM_TYPES);
     }
+    
     return nodeArray;
 }
 
@@ -104,16 +104,10 @@ Menu * Model::setMenu()
     return this->menu;
 }
 
-MiniGame * Model::setMiniGame(Node * planet, Ship * attacker, Ship * defender)
+MiniGame * Model::setMiniGame(Node * planet, Player * attacker, Player * defender)
 {
     this->mgame = new MiniGame(planet, attacker, defender);
     return this->mgame;
-}
-
-void Model::enterMiniGame(Node * planet, Ship * attacker, Ship * defender)
-{
-    setMiniGame(planet, attacker, defender);
-    state = MINIGAME;
 }
 
 void Model::setCameraParams()

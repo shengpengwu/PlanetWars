@@ -10,42 +10,32 @@
 
 class Fleet;
 #include "Model.h"
+#include "Fleet.h"
 #include "Node.h"
 
 class Player
 {
 public:    
+    Fleet * fleet;
     Node ** myNodes;
     Node * home;
-    Ship** shipArray;
-    
     int nodesOwned;
-    int waterNodesOwned;
-    int earthNodesOwned;
-    int windNodesOwned;
-    int fireNodesOwned;
-    int darkNodesOwned;
     
-    int numShips;
-    int darkResources;
-    
-    bool hasNode(Node *node);
+    bool iOwnNode(Node *node);
     void surrenderNode(Node *node);
     void attackNode(Node *attackNode, Node *defendNode);
     void conquerNode(Node *node);
+    Unit * deployUnit(Node *planet, int type);
     void endTurn();
     
-    bool hasShip(Ship * s);
-    void addShip(Node * n);
-    void refreshShips();
+    int fireResources;
+    int waterResources;
+    int earthResources;
+    int windResources;
     
     Player();
     ~Player();
     
-    
-    
-    
-
     void draw();
 };
 
